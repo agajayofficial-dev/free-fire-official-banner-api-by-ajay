@@ -80,9 +80,9 @@ def process_banner_image(data, avatar_bytes, banner_bytes, pin_bytes):
     banner_img = bytes_to_image(banner_bytes)
     pin_img = bytes_to_image(pin_bytes)
 
-    level = str(data.get("AccountLevel", "0"))
-    name = data.get("AccountName", "Unknown")
-    guild = data.get("GuildName", "")
+    level = str(data.get("level", "0"))
+    name = data.get("nickname", "Unknown")
+    guild = data.get("clanName", "N/A")
 
     TARGET_HEIGHT = 400 
     avatar_img = avatar_img.resize((TARGET_HEIGHT, TARGET_HEIGHT), Image.LANCZOS)
