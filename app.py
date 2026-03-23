@@ -193,10 +193,10 @@ async def get_banner(uid: str):
             
         data = resp.json()
         
-        account_info = data.get("AccountInfo", {})
-        equipped_items = data.get("EquippedItemsInfo", {})
-        profile_info = data.get("AccountProfileInfo", {})
-        guild_info = data.get("GuildInfo", {})
+        account_info = data.get("basicInfo", {})
+        equipped_items = data.get("equippedSkills", {})
+        profile_info = data.get("profileInfo", {})
+        guild_info = data.get("clanBasicInfo", {})
         
         if not account_info: raise HTTPException(status_code=404, detail="Not Found")
         
@@ -213,9 +213,9 @@ async def get_banner(uid: str):
 
         loop = asyncio.get_event_loop()
         banner_data = {
-            "AccountLevel": account_info.get("AccountLevel", "0"),
-            "AccountName": account_info.get("AccountName", "Unknown"),
-            "GuildName": guild_info.get("GuildName", "")
+            "AccountLevel": account_info.get("level", "0"),
+            "AccountName": account_info.get("nicknme", "Unknown"),
+            "GuildName": guild_info.get("clanName", "")
         }
         
         img_io = await loop.run_in_executor(
