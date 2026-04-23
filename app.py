@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-INFO_API_URL = "https://free-fire-official-info-api-by-ajay.vercel.app/accinfo"
+INFO_API_URL = "https://info-api-xi-tawny.vercel.app/get"
 FONT_FILE = "arial_unicode_bold.otf"
 FONT_CHEROKEE = "NotoSansCherokee.ttf"
 
@@ -80,9 +80,9 @@ def process_banner_image(data, avatar_bytes, banner_bytes, pin_bytes):
     banner_img = bytes_to_image(banner_bytes)
     pin_img = bytes_to_image(pin_bytes)
 
-    level = str(data.get("level", "0"))
-    name = data.get("nickname", "Unknown")
-    guild = data.get("clanName", "N/A")
+    level = str(data.get("AccountLevel", "0"))
+    name = data.get("AccountName", "Unknown")
+    guild = data.get("GuildName", "N/A")
 
     TARGET_HEIGHT = 400 
     avatar_img = avatar_img.resize((TARGET_HEIGHT, TARGET_HEIGHT), Image.LANCZOS)
@@ -186,17 +186,17 @@ async def get_banner(uid: str):
         raise HTTPException(status_code=400, detail="UID required")
 
     try:
-        resp = await client.get(f"{INFO_API_URL}?uid={uid}&region=ind")
+        resp = await client.get(f"{INFO_API_URL}?uid={uid}")
         
         if resp.status_code != 200:
             raise HTTPException(status_code=502, detail="Info API Error")
             
         data = resp.json()
         
-        account_info = data.get("basicInfo", {})
-        equipped_items = data.get("equippedSkills", {})
-        profile_info = data.get("profileInfo", {})
-        guild_info = data.get("clanBasicInfo", {})
+        account_info = data.get("AccountInfo", {})
+        equipped_items = data.get("EquippedSkills", {})
+        profile_info = data.get("AccountInfo", {})
+        guild_info = data.get("GuildInfo", {})
         
         if not account_info: raise HTTPException(status_code=404, detail="Not Found")
         
